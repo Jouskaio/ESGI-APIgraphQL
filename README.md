@@ -7,4 +7,3 @@
 3. Get public IP of your container with `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' esgi-graphql`, it will be your POSTGRES_HOST value.
 4. Set the database accessible from the outside with the following command `psql -h 127.17.0.2 -U postgres -d esgi-graphql` where 127.17.0.2 is your public IP (not inside the container)
 4. Install dependencies with `npm install`
-5. 
