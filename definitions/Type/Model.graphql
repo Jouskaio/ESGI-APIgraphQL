@@ -1,0 +1,6 @@
+type Model {
+    key: ID!
+    name: String!
+    brand: Brand
+    size: [Size]
+}

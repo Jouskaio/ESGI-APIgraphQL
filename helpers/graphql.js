@@ -35,7 +35,7 @@ class GraphQLHelper {
     const definitionsPath = `${rootDir}/definitions`;
     if (!fs.existsSync(definitionsPath)) {
       throw new Error(
-        "You did not define the type definition language of the graphQL !"
+        "You did not define the Type definition language of the graphQL !"
       );
     }
 

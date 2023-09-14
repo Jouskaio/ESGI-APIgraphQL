@@ -1,0 +1,13 @@
+type Shoe {
+    key: ID!
+    pricePurchase: Float,
+    priceSale: Float,
+    datePurchase: String,
+    dateSold: String,
+    code: String,
+    model: Model,
+    locationPurchase: Location,
+    locationSold: Location,
+    color: Color,
+    size: Size
+}

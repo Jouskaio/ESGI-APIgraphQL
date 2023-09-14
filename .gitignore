@@ -7,3 +7,4 @@ now.json
 
 src/schema.graphql
 .idea
+.env

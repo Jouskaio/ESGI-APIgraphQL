@@ -1,0 +1,4 @@
+type Color {
+    key: ID!
+    name: String!
+}
