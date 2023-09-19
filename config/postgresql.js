@@ -1,7 +1,7 @@
 const { config } = require('dotenv');
 const { Pool } = require('pg');
 
-config(); // Charge les variables d'environnement du fichier .env
+config();
 
 const pool = new Pool({
   host: process.env.POSTGRES_HOST,
@@ -11,4 +11,17 @@ const pool = new Pool({
   database: process.env.POSTGRES_NAME,
 });
 
+
+pool.on('error', (err) => {
+  console.error('Error while connecting... check your pool :', err);
+});
+
+pool.connect((err, client, done) => {
+  if (err) {
+    console.error('Impossible to connect to database :', err);
+  } else {
+    console.log('Connexion OK');
+  }
+  done();
+});
 module.exports = { pool };

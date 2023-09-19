@@ -2,28 +2,65 @@ const { ApolloError } = require("apollo-server");
 
 const resolvers = {
   Query: {
-    brands: (
+    brands: async (
       parent,
       args,
       { dataSources: { BrandPSQLDataSource } },
       info
-    ) => BrandPSQLDataSource.brands,
-    brand: (
+    ) => {
+      const result = await BrandPSQLDataSource.brands();
+
+      // If the result is empty, return an empty array
+      if (!result || result.length === 0) {
+        return [];
+      }
+
+      // Otherwise, return the result mapped to the schema
+      return result.map((brand) => ({
+        key: brand.brand_id,
+        name: brand.brand_name,
+      }));
+    },
+    brand: async (
       parent,
       { key },
       { dataSources: { BrandPSQLDataSource } },
       info
-    ) => BrandPSQLDataSource.brandByID(key).then(brand => brand ? brand : new ApolloError("Brand not found.", "RESOURCE_NOT_FOUND")),
-    brandByName: (
+    ) => {
+      const brand = await BrandPSQLDataSource.brandByID(key);
+      if (!brand) {
+        throw new ApolloError("Brand not found.", "RESOURCE_NOT_FOUND");
+      }
+      return {
+        key: brand[0].brand_id,
+        name: brand[0].brand_name,
+      };
+    },
+    brandByName: async (
       parent,
-      { key },
+      { name },
       { dataSources: { BrandPSQLDataSource } },
       info
-    ) => BrandPSQLDataSource.brandByName(key).then(brand => brand ? brand : new ApolloError("Brand not found.", "RESOURCE_NOT_FOUND")),
+    ) => {
+      const brand = await BrandPSQLDataSource.brandByName(name);
+      if (!brand) {
+        throw new ApolloError("Brand not found.", "RESOURCE_NOT_FOUND");
+      }
+
+      return {
+        key: brand[0].brand_id,
+        name: brand[0].brand_name,
+      };
+    },
   },
   Brand: {
-    name: (parent, args, { dataSources: { BrandPSQLDataSource } }) => parent.brandID ? BrandPSQLDataSource.brandByID(parent.brandID) : null,
-  }
+    key: async (parent) => {
+      return parent.key;
+    },
+    name: async (parent) => {
+      return parent.name;
+    },
+  },
 };
 
 module.exports = resolvers;
