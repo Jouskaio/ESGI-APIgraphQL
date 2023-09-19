@@ -1,9 +1,7 @@
-import { config } from 'dotenv';
-import postgresql from 'pg';
+const { config } = require('dotenv');
+const { Pool } = require('pg');
 
 config(); // Charge les variables d'environnement du fichier .env
-
-const { Pool } = postgresql;
 
 const pool = new Pool({
   host: process.env.POSTGRES_HOST,
@@ -13,4 +11,4 @@ const pool = new Pool({
   database: process.env.POSTGRES_NAME,
 });
 
-export default { pool };
+module.exports = { pool };
