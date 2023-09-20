@@ -22,7 +22,7 @@ extend type Query {
   modelByName(name: String!): Model
   # SHOE
   shoes: [Shoe]
-  shoe(key: ID!): Brand
+  shoe(key: ID!): Shoe
   shoeByName(name: String!): Shoe
   # SIZE
   sizes: [Size]
