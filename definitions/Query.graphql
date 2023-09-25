@@ -1,3 +1,35 @@
 type Query {
   _empty: String
 }
+
+extend type Query {
+  # --- GET ---
+  # BRAND
+  brands: [Brand]
+  brand(key: ID!): Brand
+  brandByName(name: String!): Brand
+  # COLOR
+  colors: [Color]
+  color(key: ID!): Color
+  colorByName(name: String!): Color
+  # LOCATION
+  locations: [Location]
+  location(key: ID!): Location
+  locationByName(name: String!): Location
+  # MODEL
+  models: [Model]
+  model(key: ID!): Model
+  modelByName(name: String!): Model
+  # SHOE
+  shoes: [Shoe]
+  shoe(key: ID!): Shoe
+  shoeByName(name: String!): Shoe
+  # SIZE
+  sizes: [Size]
+  size(key: ID!): Size
+  sizeByName(name: String!): Brand
+  # USER
+  users: [User]
+  user: User
+  userByUsername(username: String!): User
+}
