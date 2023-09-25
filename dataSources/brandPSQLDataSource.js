@@ -10,7 +10,7 @@ class BrandPSQLDataSource extends RESTDataSource {
   }
 
   async brandByID(key) {
-    let result = await pool.query('SELECT * as name FROM "BRAND" WHERE brand_id = $1', [key]);
+    let result = await pool.query('SELECT * FROM "BRAND" WHERE brand_id = $1', [key]);
     return result.rows;
   }
 
