@@ -23,7 +23,7 @@ extend type Query {
   # SHOE
   shoes: [Shoe]
   shoe(key: ID!): Shoe
-  shoeByName(name: String!): Shoe
+  shoeByCode(code: String!): Shoe
   # SIZE
   sizes: [Size]
   size(key: ID!): Size
