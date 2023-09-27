@@ -8,3 +8,5 @@ now.json
 src/schema.graphql
 .idea
 .env
+.DS_Store
+.DS_Store
