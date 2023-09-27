@@ -65,14 +65,14 @@ const resolvers = {
     name: async (parent) => {
       return parent.name;
     },
-    brand: async (parent, args, { dataSources: { BrandPSQLDataSource } }) => {
-      const brand = await BrandPSQLDataSource.brandByID(parent.brand_key);
-      if (!brand) {
+    brand_key: async (parent, args, { dataSources: { BrandPSQLDataSource } }) => {
+      const brand_key = await BrandPSQLDataSource.brandByID(parent.brand_key);
+      if (!brand_key) {
         throw new ApolloError("Brand not found.", "RESOURCE_NOT_FOUND");
       }
       return {
-        key: brand[0].brand_id,
-        name: brand[0].brand_name,
+        key: brand_key[0].brand_id,
+        name: brand_key[0].brand_name,
       };
     },
   },
