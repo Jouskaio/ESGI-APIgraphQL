@@ -1,6 +1,6 @@
 type Model {
     key: ID!
     name: String!
-    brand: Brand
+    brand_key: Brand
     #size: [Size]
 }
