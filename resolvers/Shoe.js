@@ -8,7 +8,7 @@ const resolvers = {
       { dataSources: { ShoePSQLDataSource } },
       info
     ) => {
-      const result = await ShoePSQLDataSource.models();
+      const result = await ShoePSQLDataSource.shoes();
 
       // If the result is empty, return an empty array
       if (!result || result.length === 0) {
@@ -16,65 +16,115 @@ const resolvers = {
       }
 
       // Otherwise, return the result mapped to the schema
-      return result.map((model) => {
+      return result.map((shoe) => {
         return {
-          key: model.model_id,
-          name: model.model_name,
-          brand_key: model.brand_id,
+          key: shoe.shoe_id,
+          pricePurchase: shoe.shoe_price_purchase,
+          priceSold: shoe.shoe_price_sold,
+          datePurchase: shoe.shoe_date_purchase,
+          dateSold: shoe.shoe_date_sold,
+          code: shoe.shoe_code,
+          size_key: shoe.size_id,
+          locationPurchase: shoe.shoe_locpurchase,
+          locationSold: shoe.shoe_locsold,
         };
       });
     },
-    model: async (
+    shoe: async (
       parent,
       { key },
       { dataSources: { ShoePSQLDataSource } },
       info
     ) => {
-      const model = await ShoePSQLDataSource.modelByID(key);
-      if (!model) {
-        throw new ApolloError("Model not found.", "RESOURCE_NOT_FOUND");
+      const shoe = await ShoePSQLDataSource.shoeByID(key);
+      if (!shoe) {
+        throw new ApolloError("Shoe not found.", "RESOURCE_NOT_FOUND");
       }
       return {
-        key: model[0].model_id,
-        name: model[0].model_name,
-        brand_key: model[0].brand_id,
+        key: shoe[0].shoe_id,
+        pricePurchase: shoe[0].shoe_price_purchase,
+        priceSold: shoe[0].shoe_price_sold,
+        datePurchase: shoe[0].shoe_date_purchase,
+        dateSold: shoe[0].shoe_date_sold,
+        code: shoe[0].shoe_code,
+        size_key: shoe[0].size_id,
+        locationPurchase: shoe[0].shoe_locpurchase,
+        locationSold: shoe[0].shoe_locsold,
       };
     },
-    modelByName: async (
+    shoeByCode: async (
       parent,
-      { name },
+      { code },
       { dataSources: { ShoePSQLDataSource } },
       info
     ) => {
-      const model = await ShoePSQLDataSource.modelByName(name);
-      if (!model) {
-        throw new ApolloError("Model not found.", "RESOURCE_NOT_FOUND");
+      const shoe = await ShoePSQLDataSource.shoeByCode(code);
+      if (!shoe) {
+        throw new ApolloError("shoe not found.", "RESOURCE_NOT_FOUND");
       }
 
       return {
-        key: model[0].model_id,
-        name: model[0].model_name,
-        brand_key: model[0].brand_id,
+        key: shoe[0].shoe_id,
+        pricePurchase: shoe[0].shoe_price_purchase,
+        priceSold: shoe[0].shoe_price_sold,
+        datePurchase: shoe[0].shoe_date_purchase,
+        dateSold: shoe[0].shoe_date_sold,
+        code: shoe[0].shoe_code,
+        size_key: shoe[0].size_id,
+        locationPurchase: shoe[0].shoe_locpurchase,
+        locationSold: shoe[0].shoe_locsold,
       };
     }
   },
-  Model: {
+  Shoe: {
     key: async (parent) => {
       return parent.key;
     },
-    name: async (parent) => {
-      return parent.name;
+    pricePurchase: async (parent) => {
+      return parent.pricePurchase;
     },
-    brand: async (parent, args, { dataSources: { ShoePSQLDataSource } }) => {
-      const brand = await ShoePSQLDataSource.brandByID(parent.brand_key);
-      if (!brand) {
-        throw new ApolloError("Brand not found.", "RESOURCE_NOT_FOUND");
+    priceSold: async (parent) => {
+      return parent.priceSold;
+    },
+    datePurchase: async (parent) => {
+      return parent.datePurchase;
+    },
+    dateSold: async (parent) => {
+      return parent.dateSold;
+    },
+    code: async (parent) => {
+      return parent.code;
+    },
+    size_key: async (parent, args, { dataSources: { SizePSQLDataSource } }) => {
+      const size_key = await SizePSQLDataSource.sizeByID(parent.size_key);
+      if (!size_key) {
+        throw new ApolloError("Size not found.", "RESOURCE_NOT_FOUND");
       }
       return {
-        key: brand[0].brand_id,
-        name: brand[0].brand_name,
+        key: size_key[0].size_id,
+        name: size_key[0].size_name,
       };
-    }
+    },
+    locationPurchase: async (parent, args, { dataSources: { LocationPSQLDataSource } }) => {
+      const locationPurchase = await LocationPSQLDataSource.locationByID(parent.locationPurchase);
+      if (!locationPurchase) {
+        throw new ApolloError("Location not found.", "RESOURCE_NOT_FOUND");
+      }
+      return {
+        key: locationPurchase[0].shoe_locpurchase,
+        name: locationPurchase[0].location_name,
+      };
+    },
+    locationSold: async (parent, args, { dataSources: { LocationPSQLDataSource } }) => {
+      const locationSold = await LocationPSQLDataSource.locationByID(parent.locationSold);
+      if (!locationSold) {
+        throw new ApolloError("Location not found.", "RESOURCE_NOT_FOUND");
+      }
+      return {
+        key: locationSold[0].shoe_locsold,
+        name: locationSold[0].location_name,
+      };
+    },
   },
 };
 
