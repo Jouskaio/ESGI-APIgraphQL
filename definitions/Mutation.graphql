@@ -7,4 +7,12 @@ type Mutation {
   Creates a new color.
   """
   addColor(name: String!): Color
+  """
+  Creates a new location.
+  """
+  addLocation(name: String!): Color
+  """
+  Creates a new model.
+  """
+  addModel(name: String!, brand_key: ID!): Model
 }
