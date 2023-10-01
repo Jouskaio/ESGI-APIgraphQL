@@ -2,8 +2,10 @@ const { compact } = require("lodash");
 const { RESTDataSource } = require("apollo-datasource-rest")
 const { pool } = require('../config/postgresql.js');
 
-
 class BrandPSQLDataSource extends RESTDataSource {
+
+  /* Queries */
+
   async brands() {
     let result = await pool.query('SELECT * FROM "BRAND"');
     return result.rows;
@@ -16,6 +18,18 @@ class BrandPSQLDataSource extends RESTDataSource {
 
   async brandByName(key) {
     let result = await pool.query('SELECT * FROM "BRAND" WHERE brand_name = $1', [key]);
+    return result.rows;
+  }
+
+  /* Mutations */
+
+  async addBrand(name) {
+    const insertQuery = 'INSERT INTO "BRAND"(brand_name) VALUES($1) RETURNING *';
+    const values = [name];
+
+    /* insert */
+    let result = await pool.query(insertQuery, values);
+
     return result.rows;
   }
 }
