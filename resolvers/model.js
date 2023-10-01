@@ -1,6 +1,7 @@
 const { ApolloError } = require("apollo-server");
 
 const resolvers = {
+  /* Queries */
   Query: {
     models: async (
       parent,
@@ -20,7 +21,7 @@ const resolvers = {
         return {
           key: model.model_id,
           name: model.model_name,
-          brand_key: model.brand_id,
+          brand: model.brand_id,
         };
       });
     },
@@ -37,7 +38,7 @@ const resolvers = {
       return {
         key: model[0].model_id,
         name: model[0].model_name,
-        brand_key: model[0].brand_id,
+        brand: model[0].brand_id,
       };
     },
     modelByName: async (
@@ -54,7 +55,30 @@ const resolvers = {
       return {
         key: model[0].model_id,
         name: model[0].model_name,
-        brand_key: model[0].brand_id,
+        brand: model[0].brand_id,
+      };
+    }
+  },
+
+  /* Mutations */
+
+  Mutation: {
+    addModel: async (
+        parent,
+        { name, brand_key },
+        { dataSources: { ModelPSQLDataSource } },
+
+    ) => {
+      const model = await ModelPSQLDataSource.addModel(name, brand_key);
+
+      if (!model) {
+        throw new ApolloError("Couldn't create model.", "RESOURCE_NOT_CREATED");
+      }
+
+      return {
+        key: model[0].model_id,
+        name: model[0].model_name,
+        brand: model[0].brand_id,
       };
     }
   },
@@ -65,14 +89,14 @@ const resolvers = {
     name: async (parent) => {
       return parent.name;
     },
-    brand_key: async (parent, args, { dataSources: { BrandPSQLDataSource } }) => {
-      const brand_key = await BrandPSQLDataSource.brandByID(parent.brand_key);
-      if (!brand_key) {
+    brand: async (parent, args, { dataSources: { BrandPSQLDataSource } }) => {
+      const brand = await BrandPSQLDataSource.brandByID(parent.brand);
+      if (!brand) {
         throw new ApolloError("Brand not found.", "RESOURCE_NOT_FOUND");
       }
       return {
-        key: brand_key[0].brand_id,
-        name: brand_key[0].brand_name,
+        key: brand[0].brand_id,
+        name: brand[0].brand_name,
       };
     },
   },
