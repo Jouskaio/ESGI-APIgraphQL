@@ -1,6 +1,7 @@
 const { ApolloError } = require("apollo-server");
 
 const resolvers = {
+  /* Queries */
   Query: {
     locations: async (
       parent,
@@ -47,6 +48,28 @@ const resolvers = {
       const location = await LocationPSQLDataSource.locationByName(name);
       if (!location) {
         throw new ApolloError("Location not found.", "RESOURCE_NOT_FOUND");
+      }
+
+      return {
+        key: location[0].location_id,
+        name: location[0].location_name,
+      };
+    }
+  },
+
+  /* Mutations */
+
+  Mutation: {
+    addLocation: async (
+      parent,
+      { name },
+      { dataSources: { LocationPSQLDataSource } },
+
+    ) => {
+      const location = await LocationPSQLDataSource.addLocation(name);
+
+      if (!location) {
+        throw new ApolloError("Couldn't create location.", "RESOURCE_NOT_CREATED");
       }
 
       return {
