@@ -1,3 +1,6 @@
 type Mutation {
-  _empty: String
+  """
+  Creates a new brand.
+  """
+  addBrand(name: String!): Brand
 }
