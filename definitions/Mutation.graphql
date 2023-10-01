@@ -3,4 +3,8 @@ type Mutation {
   Creates a new brand.
   """
   addBrand(name: String!): Brand
+  """
+  Creates a new color.
+  """
+  addColor(name: String!): Color
 }
