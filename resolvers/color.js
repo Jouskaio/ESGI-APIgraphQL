@@ -1,6 +1,7 @@
 const { ApolloError } = require("apollo-server");
 
 const resolvers = {
+  /* Queries */
   Query: {
     colors: async (
       parent,
