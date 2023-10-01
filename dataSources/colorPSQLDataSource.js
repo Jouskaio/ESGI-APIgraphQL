@@ -3,7 +3,6 @@ const { RESTDataSource } = require("apollo-datasource-rest")
 const { pool } = require('../config/postgresql.js');
 
 class ColorPSQLDataSource extends RESTDataSource {
-
   /* Queries */
   async colors() {
     let result = await pool.query('SELECT * FROM "COLOR"');
