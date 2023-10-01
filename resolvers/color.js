@@ -55,6 +55,28 @@ const resolvers = {
       };
     }
   },
+
+  /* Mutations */
+
+  Mutation: {
+    addColor: async (
+        parent,
+        { name },
+        { dataSources: { ColorPSQLDataSource } },
+
+    ) => {
+      const color = await ColorPSQLDataSource.addColor(name);
+
+      if (!color) {
+        throw new ApolloError("Couldn't create color.", "RESOURCE_NOT_CREATED");
+      }
+
+      return {
+        key: color[0].color_id,
+        name: color[0].color_name,
+      };
+    }
+  },
   Color: {
     key: async (parent) => {
       return parent.key;
