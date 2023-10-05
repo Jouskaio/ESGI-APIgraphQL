@@ -1,6 +1,9 @@
 const { ApolloError } = require("apollo-server");
 
 const resolvers = {
+
+  /* Queries */
+
   Query: {
     brands: async (
       parent,
@@ -47,11 +50,35 @@ const resolvers = {
         throw new ApolloError("Brand not found.", "RESOURCE_NOT_FOUND");
       }
 
+      console.log(JSON.stringify(brand));
+
       return {
         key: brand[0].brand_id,
         name: brand[0].brand_name,
       };
     },
+  },
+
+  /* Mutations */
+
+  Mutation: {
+    addBrand: async (
+        parent,
+        { name },
+        { dataSources: { BrandPSQLDataSource } },
+
+    ) => {
+      const brand = await BrandPSQLDataSource.addBrand(name);
+
+      if (!brand) {
+        throw new ApolloError("Couldn't create brand.", "RESOURCE_NOT_CREATED");
+      }
+
+      return {
+        key: brand[0].brand_id,
+        name: brand[0].brand_name,
+      };
+    }
   },
   Brand: {
     key: async (parent) => {

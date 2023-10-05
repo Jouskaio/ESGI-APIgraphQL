@@ -1,6 +1,7 @@
 const { ApolloError } = require("apollo-server");
 
 const resolvers = {
+  /* Queries */
   Query: {
     sizes: async (
       parent,
@@ -52,6 +53,28 @@ const resolvers = {
         name: size[0].size_name,
       };
     },
+  },
+
+  /* Mutations */
+
+  Mutation: {
+    addSize: async (
+        parent,
+        { name },
+        { dataSources: { SizePSQLDataSource } },
+
+    ) => {
+      const size = await SizePSQLDataSource.addSize(name);
+
+      if (!size) {
+        throw new ApolloError("Couldn't create size.", "RESOURCE_NOT_CREATED");
+      }
+
+      return {
+        key: size[0].size_id,
+        name: size[0].size_name,
+      };
+    }
   },
   Size: {
     key: async (parent) => {

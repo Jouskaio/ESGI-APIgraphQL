@@ -1,6 +1,7 @@
 const { ApolloError } = require("apollo-server");
 
 const resolvers = {
+  /* Queries */
   Query: {
     colors: async (
       parent,
@@ -52,6 +53,28 @@ const resolvers = {
       return {
         key: color[0].brand_id,
         name: color[0].brand_name,
+      };
+    }
+  },
+
+  /* Mutations */
+
+  Mutation: {
+    addColor: async (
+        parent,
+        { name },
+        { dataSources: { ColorPSQLDataSource } },
+
+    ) => {
+      const color = await ColorPSQLDataSource.addColor(name);
+
+      if (!color) {
+        throw new ApolloError("Couldn't create color.", "RESOURCE_NOT_CREATED");
+      }
+
+      return {
+        key: color[0].color_id,
+        name: color[0].color_name,
       };
     }
   },
