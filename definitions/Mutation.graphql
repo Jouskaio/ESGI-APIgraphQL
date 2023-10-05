@@ -2,7 +2,7 @@ type Mutation {
   """
   Creates a new location.
   """
-  addLocation(name: String!): Color
+  addLocation(name: String!): Location
   """
   Creates a new brand.
   """
