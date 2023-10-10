@@ -21,6 +21,8 @@ class ShoePSQLDataSource extends RESTDataSource {
 
   /* Mutations */
 
+  /* POST */
+
   async addShoe(
     pricePurchase,
     priceSold,
@@ -49,6 +51,40 @@ class ShoePSQLDataSource extends RESTDataSource {
     let result = await pool.query(insertQuery, values);
 
     console.log(JSON.stringify(result));
+
+    return result.rows;
+  }
+
+  /* UPDATE */
+
+  async updateShoe(
+      key,
+      pricePurchase,
+      priceSold,
+      datePurchase,
+      dateSold,
+      code,
+      size_key,
+      locationPurchase_key,
+      locationSold_key,
+  ) {
+    const updateQuery =
+        'UPDATE "SHOE" SET shoe_price_purchase = $2, shoe_price_sold = $3, shoe_date_sold = $4, shoe_date_purchase = $5, shoe_code = $6, size_id = $7, shoe_locpurchase = $8, shoe_locsold = $9 WHERE shoe_id = $1 RETURNING *';
+
+    const values = [
+      key,
+      pricePurchase,
+      priceSold,
+      datePurchase,
+      dateSold,
+      code,
+      size_key,
+      locationPurchase_key,
+      locationSold_key,
+    ];
+
+    /* insert */
+    let result = await pool.query(updateQuery, values);
 
     return result.rows;
   }

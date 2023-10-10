@@ -21,12 +21,26 @@ class ColorPSQLDataSource extends RESTDataSource {
 
   /* Mutations */
 
+  /* POST */
+
   async addColor(name) {
     const insertQuery = 'INSERT INTO "COLOR"(color_name) VALUES($1) RETURNING *';
     const values = [name];
 
     /* insert */
     let result = await pool.query(insertQuery, values);
+
+    return result.rows;
+  }
+
+  /* UPDATE */
+
+  async updateColor(key,  name) {
+    const updateQuery = 'UPDATE "COLOR" SET color_name = $2 WHERE color_id = $1 RETURNING *';
+    const values = [key, name];
+
+    /* insert */
+    let result = await pool.query(updateQuery, values);
 
     return result.rows;
   }

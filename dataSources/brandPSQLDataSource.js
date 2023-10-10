@@ -23,12 +23,26 @@ class BrandPSQLDataSource extends RESTDataSource {
 
   /* Mutations */
 
+  /* POST */
+
   async addBrand(name) {
     const insertQuery = 'INSERT INTO "BRAND"(brand_name) VALUES($1) RETURNING *';
     const values = [name];
 
     /* insert */
     let result = await pool.query(insertQuery, values);
+
+    return result.rows;
+  }
+
+  /* UPDATE */
+
+  async updateBrand(key,  name) {
+    const updateQuery = 'UPDATE "BRAND" SET brand_name = $2 WHERE brand_id = $1 RETURNING *';
+    const values = [key, name];
+
+    /* insert */
+    let result = await pool.query(updateQuery, values);
 
     return result.rows;
   }

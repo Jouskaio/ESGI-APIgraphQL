@@ -22,12 +22,26 @@ class SizePSQLDataSource extends RESTDataSource {
 
   /* Mutations */
 
+  /* POST */
+
   async addSize(name) {
     const insertQuery = 'INSERT INTO "SIZE"(size_name) VALUES($1) RETURNING *';
     const values = [name];
 
     /* insert */
     let result = await pool.query(insertQuery, values);
+
+    return result.rows;
+  }
+
+  /* UPDATE */
+
+  async updateSize(key,  name) {
+    const updateQuery = 'UPDATE "SIZE" SET size_name = $2 WHERE size_id = $1 RETURNING *';
+    const values = [key, name];
+
+    /* insert */
+    let result = await pool.query(updateQuery, values);
 
     return result.rows;
   }
