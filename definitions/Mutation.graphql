@@ -66,4 +66,9 @@ type Mutation {
   Updates an existing color.
   """
   updateColor(key: ID!, name: String!): Color
+
+  """
+  Deletes a shoe by its key.
+  """
+  deleteShoe(key: ID!): Shoe
 }
