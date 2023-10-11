@@ -25,12 +25,65 @@
          ) AS temp(size_name)
     WHERE size_name NOT IN (SELECT size_name FROM "SIZE");
 
+-- Table: "LOCATION"
+INSERT INTO "LOCATION" (location_name)
+SELECT DISTINCT location_name
+FROM (
+         VALUES
+             ('Foot Locker'),
+             ('Courir'),
+             ('JD'),
+             ('Zalando'),
+             ('Asos'),
+             ('Nine West'),
+             ('Kith'),
+             ('BSTN'),
+             ('AboutYou'),
+             ('OffSpring'),
+             ('Onygo'),
+             ('Sns'),
+             ('Starcow'),
+             ('Supreme'),
+             ('SVD'),
+             ('Foot Patrol'),
+             ('Size'),
+             ('Special Milano'),
+             ('Stussy'),
+             ('SlamJam'),
+             ('Naked'),
+             ('Marché'),
+             ('Local'),
+             ('Retailer')
+     ) AS temp(location_name)
+WHERE location_name NOT IN (SELECT location_name FROM "LOCATION");
+
 -- Table: "COLOR"
--- A FINIR
-INSERT INTO "COLOR" (color_id, color_name) VALUES (1, 'Rouge');
-INSERT INTO "COLOR" (color_id, color_name) VALUES (2, 'Bleu');
-INSERT INTO "COLOR" (color_id, color_name) VALUES (3, 'Vert');
-INSERT INTO "COLOR" (color_id, color_name) VALUES (4, 'Jaune');
+INSERT INTO "COLOR" (color_name)
+SELECT DISTINCT color_name
+FROM (
+         VALUES
+             ('Rouge'),
+             ('Bleu'),
+             ('Vert'),
+             ('Jaune'),
+             ('Rose'),
+             ('Orange'),
+             ('Violet'),
+             ('Marron'),
+             ('Noir'),
+             ('Blanc'),
+             ('Gris'),
+             ('Turquoise'),
+             ('Cyan'),
+             ('Magenta'),
+             ('Or'),
+             ('Argent'),
+             ('Indigo'),
+             ('Emeraude'),
+             ('Saumon'),
+             ('Lavande')
+     ) AS temp(color_name)
+WHERE color_name NOT IN (SELECT color_name FROM "COLOR");
 
 -- Table: "BRAND"
     INSERT INTO "BRAND" (brand_name)
