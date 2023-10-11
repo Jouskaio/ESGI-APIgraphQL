@@ -126,6 +126,50 @@ const resolvers = {
         locationPurchase: shoe[0].shoe_locpurchase,
         locationSold: shoe[0].shoe_locsold,
       };
+    },
+    updateShoe: async (
+        parent,
+        {
+          key,
+          pricePurchase,
+          priceSold,
+          datePurchase,
+          dateSold,
+          code,
+          size_key,
+          locationPurchase_key,
+          locationSold_key,
+        },
+        { dataSources: { ShoePSQLDataSource } },
+
+    ) => {
+      const shoe = await ShoePSQLDataSource.updateShoe(
+          key,
+          pricePurchase,
+          priceSold,
+          datePurchase,
+          dateSold,
+          code,
+          size_key,
+          locationPurchase_key,
+          locationSold_key,
+      );
+
+      if (!shoe) {
+        throw new ApolloError("Couldn't update shoe.", "RESOURCE_NOT_UPDATED");
+      }
+
+      return {
+        key: shoe[0].shoe_id,
+        pricePurchase: shoe[0].shoe_price_purchase,
+        priceSold: shoe[0].shoe_price_sold,
+        datePurchase: shoe[0].shoe_date_purchase,
+        dateSold: shoe[0].shoe_date_sold,
+        code: shoe[0].shoe_code,
+        size: shoe[0].size_id,
+        locationPurchase: shoe[0].shoe_locpurchase,
+        locationSold: shoe[0].shoe_locsold,
+      };
     }
   },
   Shoe: {

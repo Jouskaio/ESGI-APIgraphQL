@@ -1,4 +1,4 @@
 type Size {
     key: ID!
-    name: String!
+    name: Float!
 }

@@ -76,6 +76,23 @@ const resolvers = {
         key: location[0].location_id,
         name: location[0].location_name,
       };
+    },
+    updateLocation: async (
+        parent,
+        { key, name },
+        { dataSources: { LocationPSQLDataSource } },
+
+    ) => {
+      const location = await LocationPSQLDataSource.updateLocation(key, name);
+
+      if (!location) {
+        throw new ApolloError("Couldn't update location.", "RESOURCE_NOT_UPDATED");
+      }
+
+      return {
+        key: location[0].location_id,
+        name: location[0].location_name,
+      };
     }
   },
   Location: {

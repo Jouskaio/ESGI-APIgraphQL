@@ -78,6 +78,23 @@ const resolvers = {
         key: brand[0].brand_id,
         name: brand[0].brand_name,
       };
+    },
+    updateBrand: async (
+        parent,
+        { key, name },
+        { dataSources: { BrandPSQLDataSource } },
+
+    ) => {
+      const brand = await BrandPSQLDataSource.updateBrand(key, name);
+
+      if (!brand) {
+        throw new ApolloError("Couldn't update brand.", "RESOURCE_NOT_UPDATED");
+      }
+
+      return {
+        key: brand[0].brand_id,
+        name: brand[0].brand_name,
+      };
     }
   },
   Brand: {

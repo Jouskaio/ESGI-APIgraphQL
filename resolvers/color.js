@@ -76,6 +76,23 @@ const resolvers = {
         key: color[0].color_id,
         name: color[0].color_name,
       };
+    },
+    updateColor: async (
+        parent,
+        { key, name },
+        { dataSources: { ColorPSQLDataSource } },
+
+    ) => {
+      const color = await ColorPSQLDataSource.updateColor(key, name);
+
+      if (!color) {
+        throw new ApolloError("Couldn't update color.", "RESOURCE_NOT_UPDATED");
+      }
+
+      return {
+        key: color[0].color_id,
+        name: color[0].color_name,
+      };
     }
   },
   Color: {

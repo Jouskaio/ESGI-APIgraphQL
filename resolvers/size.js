@@ -74,6 +74,23 @@ const resolvers = {
         key: size[0].size_id,
         name: size[0].size_name,
       };
+    },
+    updateSize: async (
+        parent,
+        { key, name },
+        { dataSources: { SizePSQLDataSource } },
+
+    ) => {
+      const size = await SizePSQLDataSource.updateSize(key, name);
+
+      if (!size) {
+        throw new ApolloError("Couldn't update size.", "RESOURCE_NOT_UPDATED");
+      }
+
+      return {
+        key: size[0].size_id,
+        name: size[0].size_name,
+      };
     }
   },
   Size: {

@@ -80,6 +80,24 @@ const resolvers = {
         name: model[0].model_name,
         brand: model[0].brand_id,
       };
+    },
+    updateModel: async (
+        parent,
+        { key, name, brand_key },
+        { dataSources: { ModelPSQLDataSource } },
+
+    ) => {
+      const model = await ModelPSQLDataSource.updateModel(key, name, brand_key);
+
+      if (!model) {
+        throw new ApolloError("Couldn't update model.", "RESOURCE_NOT_UPDATED");
+      }
+
+      return {
+        key: model[0].model_id,
+        name: model[0].model_name,
+        brand: model[0].brand_id,
+      };
     }
   },
   Model: {
