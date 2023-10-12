@@ -30,6 +30,8 @@ const resolvers = {
           dateSold: shoe.shoe_date_sold,
           code: shoe.shoe_code,
           size: shoe.size_id,
+          brand: shoe.brand_id,
+          model: shoe.model_id,
           locationPurchase: shoe.shoe_locpurchase,
           locationSold: shoe.shoe_locsold,
         };
@@ -53,6 +55,8 @@ const resolvers = {
         dateSold: shoe[0].shoe_date_sold,
         code: shoe[0].shoe_code,
         size: shoe[0].size_id,
+        brand: shoe[0].brand_id,
+        model: shoe[0].model_id,
         locationPurchase: shoe[0].shoe_locpurchase,
         locationSold: shoe[0].shoe_locsold,
       };
@@ -76,6 +80,8 @@ const resolvers = {
         dateSold: shoe[0].shoe_date_sold,
         code: shoe[0].shoe_code,
         size: shoe[0].size_id,
+        brand: shoe[0].brand_id,
+        model: shoe[0].model_id,
         locationPurchase: shoe[0].shoe_locpurchase,
         locationSold: shoe[0].shoe_locsold,
       };
@@ -93,6 +99,8 @@ const resolvers = {
           dateSold,
           code,
           size_key,
+          brand_key,
+          model_key,
           locationPurchase_key,
           locationSold_key,
         },
@@ -105,6 +113,8 @@ const resolvers = {
           dateSold,
           code,
           size_key,
+          brand_key,
+          model_key,
           locationPurchase_key,
           locationSold_key
       );
@@ -121,6 +131,8 @@ const resolvers = {
         dateSold: shoe[0].shoe_date_sold,
         code: shoe[0].shoe_code,
         size: shoe[0].size_id,
+        brand: shoe[0].brand_id,
+        model: shoe[0].model_id,
         locationPurchase: shoe[0].shoe_locpurchase,
         locationSold: shoe[0].shoe_locsold,
       };
@@ -190,6 +202,8 @@ const resolvers = {
         dateSold: shoe[0].shoe_date_sold,
         code: shoe[0].shoe_code,
         size: shoe[0].size_id,
+        brand: shoe[0].brand_id,
+        model: shoe[0].model_id,
         locationPurchase: shoe[0].shoe_locpurchase,
         locationSold: shoe[0].shoe_locsold,
       };
@@ -224,14 +238,29 @@ const resolvers = {
         name: size[0].size_name,
       };
     },
-    locationPurchase: async (
-        parent,
-        args,
-        { dataSources: { LocationPSQLDataSource } }
-    ) => {
-      const locationPurchase = await LocationPSQLDataSource.locationByID(
-          parent.locationPurchase
-      );
+    brand: async (parent, args, { dataSources: { BrandPSQLDataSource } }) => {
+      const brand = await BrandPSQLDataSource.brandByID(parent.brand);
+      if (!brand) {
+        throw new ApolloError("Brand not found.", "RESOURCE_NOT_FOUND");
+      }
+      return {
+        key: brand[0].brand_id,
+        name: brand[0].brand_name,
+      };
+    },
+    model: async (parent, args, { dataSources: { ModelPSQLDataSource } }) => {
+      const model = await ModelPSQLDataSource.modelByID(parent.model);
+      if (!model) {
+        throw new ApolloError("Model not found.", "RESOURCE_NOT_FOUND");
+      }
+      return {
+        key: model[0].model_id,
+        name: model[0].model_name,
+      };
+    },
+    locationPurchase: async (parent, args, { dataSources: { LocationPSQLDataSource } }) => {
+      const locationPurchase = await LocationPSQLDataSource.locationByID(parent.locationPurchase);
+
       if (!locationPurchase) {
         throw new ApolloError("Location not found.", "RESOURCE_NOT_FOUND");
       }
