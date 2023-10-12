@@ -206,6 +206,26 @@ const resolvers = {
         name: size[0].size_name,
       };
     },
+    brand: async (parent, args, { dataSources: { BrandPSQLDataSource } }) => {
+      const brand = await BrandPSQLDataSource.brandByID(parent.brand);
+      if (!brand) {
+        throw new ApolloError("Brand not found.", "RESOURCE_NOT_FOUND");
+      }
+      return {
+        key: brand[0].brand_id,
+        name: brand[0].brand_name,
+      };
+    },
+    model: async (parent, args, { dataSources: { ModelPSQLDataSource } }) => {
+      const model = await ModelPSQLDataSource.modelByID(parent.model);
+      if (!model) {
+        throw new ApolloError("Model not found.", "RESOURCE_NOT_FOUND");
+      }
+      return {
+        key: model[0].model_id,
+        name: model[0].model_name,
+      };
+    },
     locationPurchase: async (parent, args, { dataSources: { LocationPSQLDataSource } }) => {
       const locationPurchase = await LocationPSQLDataSource.locationByID(parent.locationPurchase);
       if (!locationPurchase) {
