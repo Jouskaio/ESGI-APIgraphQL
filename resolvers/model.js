@@ -4,12 +4,12 @@ const resolvers = {
   /* Queries */
   Query: {
     models: async (
-      parent,
-      args,
-      { dataSources: { ModelPSQLDataSource } },
-      info
+        parent,
+        { start, offset },
+        { dataSources: { ModelPSQLDataSource } },
+        info
     ) => {
-      const result = await ModelPSQLDataSource.models();
+      const result = await ModelPSQLDataSource.getPaginatedModels(start, offset);
 
       // If the result is empty, return an empty array
       if (!result || result.length === 0) {

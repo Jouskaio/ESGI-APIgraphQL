@@ -44,6 +44,14 @@ class ModelPSQLDataSource extends RESTDataSource {
 
     return result.rows;
   }
+
+  async getPaginatedModels(start, offset) {
+    const query = 'SELECT * FROM "MODEL" OFFSET $1 LIMIT $2';
+    const values = [start, offset];
+    const result = await pool.query(query, values);
+    return result.rows;
+  }
+
 }
 
 module.exports = ModelPSQLDataSource;
