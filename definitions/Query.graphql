@@ -17,9 +17,10 @@ extend type Query {
   location(key: ID!): Location
   locationByName(name: String!): Location
   # MODEL
-  models: [Model]
+  models(start: Int!, offset: Int!): [Model]
   model(key: ID!): Model
   modelByName(name: String!): Model
+  #paginatedModels(start: Int!, offset: Int!): [Model]
   # SHOE
   shoes: [Shoe]
   shoe(key: ID!): Shoe
