@@ -24,17 +24,19 @@ class ShoePSQLDataSource extends RESTDataSource {
   /* POST */
 
   async addShoe(
-    pricePurchase,
-    priceSold,
-    datePurchase,
-    dateSold,
-    code,
-    size_key,
-    locationPurchase_key,
-    locationSold_key,
+      pricePurchase,
+      priceSold,
+      datePurchase,
+      dateSold,
+      code,
+      size_key,
+      brand_key,
+      model_key,
+      locationPurchase_key,
+      locationSold_key,
   ) {
     const insertQuery =
-        'INSERT INTO "SHOE"(shoe_price_purchase, shoe_price_sold, shoe_date_sold, shoe_date_purchase, shoe_code, size_id, shoe_locpurchase, shoe_locsold) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
+        'INSERT INTO "SHOE"(shoe_price_purchase, shoe_price_sold, shoe_date_sold, shoe_date_purchase, shoe_code, size_id, brand_id, model_id, shoe_locpurchase, shoe_locsold) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *';
 
     const values = [
       pricePurchase,
@@ -43,6 +45,8 @@ class ShoePSQLDataSource extends RESTDataSource {
       dateSold,
       code,
       size_key,
+      brand_key,
+      model_key,
       locationPurchase_key,
       locationSold_key,
     ];
