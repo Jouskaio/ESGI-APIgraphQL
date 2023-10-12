@@ -88,6 +88,17 @@ class ShoePSQLDataSource extends RESTDataSource {
 
     return result.rows;
   }
+
+  /* DELETE */
+
+  async deleteShoe(key) {
+    const deleteQuery = 'DELETE FROM "SHOE" WHERE shoe_id = $1 RETURNING *';
+    const values = [key];
+
+    let result = await pool.query(deleteQuery, values);
+
+    return result.rows;
+  }
 }
 
 module.exports = ShoePSQLDataSource;

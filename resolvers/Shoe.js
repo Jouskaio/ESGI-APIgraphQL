@@ -1,17 +1,17 @@
 const { ApolloError } = require("apollo-server");
 
-/** IMPORTANT : resolver + schéma à revoir pour table shoe, liaisons impossible (mutations
+/** IMPORTANT: resolver + schéma à revoir pour la table shoe, liaisons impossible (mutations
  * queries) entre clés étrangères "shoe_locpurchase"/"shoe_locsold" car elles référencent
- * location_id, voir si harmonisation nécessaire*/
+ * location_id, voir si harmonisation nécessaire */
 
 const resolvers = {
   /* Queries */
   Query: {
     shoes: async (
-      parent,
-      args,
-      { dataSources: { ShoePSQLDataSource } },
-      info
+        parent,
+        args,
+        { dataSources: { ShoePSQLDataSource } },
+        info
     ) => {
       const result = await ShoePSQLDataSource.shoes();
 
@@ -36,10 +36,10 @@ const resolvers = {
       });
     },
     shoe: async (
-      parent,
-      { key },
-      { dataSources: { ShoePSQLDataSource } },
-      info
+        parent,
+        { key },
+        { dataSources: { ShoePSQLDataSource } },
+        info
     ) => {
       const shoe = await ShoePSQLDataSource.shoeByID(key);
       if (!shoe) {
@@ -58,14 +58,14 @@ const resolvers = {
       };
     },
     shoeByCode: async (
-      parent,
-      { code },
-      { dataSources: { ShoePSQLDataSource } },
-      info
+        parent,
+        { code },
+        { dataSources: { ShoePSQLDataSource } },
+        info
     ) => {
       const shoe = await ShoePSQLDataSource.shoeByCode(code);
       if (!shoe) {
-        throw new ApolloError("shoe not found.", "RESOURCE_NOT_FOUND");
+        throw new ApolloError("Shoe not found.", "RESOURCE_NOT_FOUND");
       }
 
       return {
@@ -79,11 +79,10 @@ const resolvers = {
         locationPurchase: shoe[0].shoe_locpurchase,
         locationSold: shoe[0].shoe_locsold,
       };
-    }
+    },
   },
 
   /* Mutations */
-
   Mutation: {
     addShoe: async (
         parent,
@@ -97,8 +96,7 @@ const resolvers = {
           locationPurchase_key,
           locationSold_key,
         },
-        { dataSources: { ShoePSQLDataSource } },
-
+        { dataSources: { ShoePSQLDataSource } }
     ) => {
       const shoe = await ShoePSQLDataSource.addShoe(
           pricePurchase,
@@ -108,7 +106,7 @@ const resolvers = {
           code,
           size_key,
           locationPurchase_key,
-          locationSold_key,
+          locationSold_key
       );
 
       if (!shoe) {
@@ -127,6 +125,32 @@ const resolvers = {
         locationSold: shoe[0].shoe_locsold,
       };
     },
+    deleteShoe: async (
+        parent,
+        { key },
+        { dataSources: { ShoePSQLDataSource } }
+    ) => {
+      const deletedShoe = await ShoePSQLDataSource.deleteShoe(key);
+
+      if (!deletedShoe) {
+        throw new ApolloError(
+            "Impossible de supprimer la chaussure.",
+            "RESSOURCE_NON_SUPPRIMÉE"
+        );
+      }
+
+      return {
+        key: deletedShoe[0].shoe_id,
+        pricePurchase: deletedShoe[0].shoe_price_purchase,
+        priceSold: deletedShoe[0].shoe_price_sold,
+        datePurchase: deletedShoe[0].shoe_date_purchase,
+        dateSold: deletedShoe[0].shoe_date_sold,
+        code: deletedShoe[0].shoe_code,
+        size: deletedShoe[0].size_id,
+        locationPurchase: deletedShoe[0].shoe_locpurchase,
+        locationSold: deletedShoe[0].shoe_locsold,
+      };
+    },
     updateShoe: async (
         parent,
         {
@@ -140,8 +164,7 @@ const resolvers = {
           locationPurchase_key,
           locationSold_key,
         },
-        { dataSources: { ShoePSQLDataSource } },
-
+        { dataSources: { ShoePSQLDataSource } }
     ) => {
       const shoe = await ShoePSQLDataSource.updateShoe(
           key,
@@ -152,7 +175,7 @@ const resolvers = {
           code,
           size_key,
           locationPurchase_key,
-          locationSold_key,
+          locationSold_key
       );
 
       if (!shoe) {
@@ -170,7 +193,7 @@ const resolvers = {
         locationPurchase: shoe[0].shoe_locpurchase,
         locationSold: shoe[0].shoe_locsold,
       };
-    }
+    },
   },
   Shoe: {
     key: async (parent) => {
@@ -201,8 +224,14 @@ const resolvers = {
         name: size[0].size_name,
       };
     },
-    locationPurchase: async (parent, args, { dataSources: { LocationPSQLDataSource } }) => {
-      const locationPurchase = await LocationPSQLDataSource.locationByID(parent.locationPurchase);
+    locationPurchase: async (
+        parent,
+        args,
+        { dataSources: { LocationPSQLDataSource } }
+    ) => {
+      const locationPurchase = await LocationPSQLDataSource.locationByID(
+          parent.locationPurchase
+      );
       if (!locationPurchase) {
         throw new ApolloError("Location not found.", "RESOURCE_NOT_FOUND");
       }
