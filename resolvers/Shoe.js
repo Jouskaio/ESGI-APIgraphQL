@@ -30,8 +30,8 @@ const resolvers = {
           dateSold: shoe.shoe_date_sold,
           code: shoe.shoe_code,
           size: shoe.size_id,
-          brand: shoe[0].brand_id,
-          model: shoe[0].model_id,
+          brand: shoe.brand_id,
+          model: shoe.model_id,
           locationPurchase: shoe.shoe_locpurchase,
           locationSold: shoe.shoe_locsold,
         };
@@ -178,6 +178,8 @@ const resolvers = {
         dateSold: shoe[0].shoe_date_sold,
         code: shoe[0].shoe_code,
         size: shoe[0].size_id,
+        brand: shoe[0].brand_id,
+        model: shoe[0].model_id,
         locationPurchase: shoe[0].shoe_locpurchase,
         locationSold: shoe[0].shoe_locsold,
       };
