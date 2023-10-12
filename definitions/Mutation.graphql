@@ -25,6 +25,8 @@ type Mutation {
     dateSold: String!,
     code: String!,
     size_key: ID!,
+    brand_key: ID!,
+    model_key: ID!,
     locationPurchase_key: ID!,
     locationSold_key: ID!,
   ): Shoe
