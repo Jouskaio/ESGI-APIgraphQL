@@ -20,6 +20,7 @@ extend type Query {
   models(start: Int!, offset: Int!): [Model]
   model(key: ID!): Model
   modelByName(name: String!): Model
+  modelsByBrand(brandId: ID!): [Model]
   #paginatedModels(start: Int!, offset: Int!): [Model]
   # SHOE
   shoes: [Shoe]

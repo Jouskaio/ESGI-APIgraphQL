@@ -57,7 +57,29 @@ const resolvers = {
         name: model[0].model_name,
         brand: model[0].brand_id,
       };
-    }
+    },
+    modelsByBrand: async (
+        parent,
+        { start, offset, brandId }, // Ajout de brandId
+        { dataSources: { ModelPSQLDataSource } },
+        info
+    ) => {
+      const result = await ModelPSQLDataSource.getPaginatedModelsByBrand(start, offset, brandId); // Nouvelle méthode
+
+      // Si le résultat est vide, retournez un tableau vide
+      if (!result || result.length === 0) {
+        return [];
+      }
+
+      // Autrement, retournez le résultat mappé vers le schéma
+      return result.map((model) => {
+        return {
+          key: model.model_id,
+          name: model.model_name,
+          brand: model.brand_id,
+        };
+      });
+    },
   },
 
   /* Mutations */

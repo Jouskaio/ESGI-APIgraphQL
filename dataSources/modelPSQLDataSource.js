@@ -19,6 +19,20 @@ class ModelPSQLDataSource extends RESTDataSource {
     return result.rows;
   }
 
+  async getPaginatedModels(start, offset) {
+    const query = 'SELECT * FROM "MODEL" OFFSET $1 LIMIT $2';
+    const values = [start, offset];
+    const result = await pool.query(query, values);
+    return result.rows;
+  }
+
+  async getPaginatedModelsByBrand(start, offset, brandId) {
+    const query = 'SELECT * FROM "MODEL" WHERE brand_id = $1 OFFSET $2 LIMIT $3';
+    const values = [brandId, start, offset];
+    const result = await pool.query(query, values);
+    return result.rows;
+  }
+
   /* Mutations */
 
   /* POST */
@@ -45,12 +59,9 @@ class ModelPSQLDataSource extends RESTDataSource {
     return result.rows;
   }
 
-  async getPaginatedModels(start, offset) {
-    const query = 'SELECT * FROM "MODEL" OFFSET $1 LIMIT $2';
-    const values = [start, offset];
-    const result = await pool.query(query, values);
-    return result.rows;
-  }
+
+
+
 
 }
 
