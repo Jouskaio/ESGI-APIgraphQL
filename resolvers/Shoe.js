@@ -94,11 +94,12 @@ const resolvers = {
           dateSold,
           code,
           size_key,
+          brand_key,
+          model_key,
           locationPurchase_key,
           locationSold_key,
         },
         { dataSources: { ShoePSQLDataSource } },
-
     ) => {
       const shoe = await ShoePSQLDataSource.addShoe(
           pricePurchase,
@@ -107,6 +108,8 @@ const resolvers = {
           dateSold,
           code,
           size_key,
+          brand_key,
+          model_key,
           locationPurchase_key,
           locationSold_key,
       );
@@ -123,6 +126,8 @@ const resolvers = {
         dateSold: shoe[0].shoe_date_sold,
         code: shoe[0].shoe_code,
         size: shoe[0].size_id,
+        brand: shoe[0].brand_id,
+        model: shoe[0].model_id,
         locationPurchase: shoe[0].shoe_locpurchase,
         locationSold: shoe[0].shoe_locsold,
       };
