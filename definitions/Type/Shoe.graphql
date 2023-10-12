@@ -6,6 +6,8 @@ type Shoe {
     dateSold: String!,
     code: String!,
     size: Size!,
+    brand: Brand!,
+    model: Model!,
     locationPurchase: Location!,
     locationSold: Location!,
 }
