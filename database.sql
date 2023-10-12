@@ -45,10 +45,14 @@ CREATE TABLE "SHOE" (
     shoe_date_purchase  DATE NOT NULL,
     shoe_code           VARCHAR(200) NOT NULL,
     size_id             INT NOT NULL,
+    brand_id            INT NOT NULL,
+    model_id            INT NOT NULL,
     shoe_locpurchase    INT NOT NULL, -- Correction de la colonne
     shoe_locsold        INT NOT NULL, -- Correction de la colonne
     PRIMARY KEY (shoe_id),
     FOREIGN KEY (size_id) REFERENCES "SIZE" (size_id),
+    FOREIGN KEY (brand_id) REFERENCES "BRAND" (brand_id),
+    FOREIGN KEY (model_id) REFERENCES "MODEL" (model_id),
     FOREIGN KEY (shoe_locpurchase) REFERENCES "LOCATION" (location_id),
     FOREIGN KEY (shoe_locsold) REFERENCES "LOCATION" (location_id)
 );
