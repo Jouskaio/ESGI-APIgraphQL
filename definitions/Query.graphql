@@ -34,4 +34,6 @@ extend type Query {
   users: [User]
   user: User
   userByUsername(username: String!): User
+  #SEARCH
+  search(query: String!): [SearchResult!]!
 }
