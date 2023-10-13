@@ -32,6 +32,7 @@ const resolvers = {
           size: shoe.size_id,
           brand: shoe.brand_id,
           model: shoe.model_id,
+          color: shoe.color_id,
           locationPurchase: shoe.shoe_locpurchase,
           locationSold: shoe.shoe_locsold,
         };
@@ -57,6 +58,7 @@ const resolvers = {
         size: shoe[0].size_id,
         brand: shoe[0].brand_id,
         model: shoe[0].model_id,
+        color: shoe[0].color_id,
         locationPurchase: shoe[0].shoe_locpurchase,
         locationSold: shoe[0].shoe_locsold,
       };
@@ -82,6 +84,7 @@ const resolvers = {
         size: shoe[0].size_id,
         brand: shoe[0].brand_id,
         model: shoe[0].model_id,
+        color: shoe[0].color_id,
         locationPurchase: shoe[0].shoe_locpurchase,
         locationSold: shoe[0].shoe_locsold,
       };
@@ -101,6 +104,7 @@ const resolvers = {
           size_key,
           brand_key,
           model_key,
+          color_key,
           locationPurchase_key,
           locationSold_key,
         },
@@ -115,6 +119,7 @@ const resolvers = {
           size_key,
           brand_key,
           model_key,
+          color_key,
           locationPurchase_key,
           locationSold_key
       );
@@ -133,6 +138,7 @@ const resolvers = {
         size: shoe[0].size_id,
         brand: shoe[0].brand_id,
         model: shoe[0].model_id,
+        color: shoe[0].color_id,
         locationPurchase: shoe[0].shoe_locpurchase,
         locationSold: shoe[0].shoe_locsold,
       };
@@ -152,15 +158,7 @@ const resolvers = {
       }
 
       return {
-        key: deletedShoe[0].shoe_id,
-        pricePurchase: deletedShoe[0].shoe_price_purchase,
-        priceSold: deletedShoe[0].shoe_price_sold,
-        datePurchase: deletedShoe[0].shoe_date_purchase,
-        dateSold: deletedShoe[0].shoe_date_sold,
-        code: deletedShoe[0].shoe_code,
-        size: deletedShoe[0].size_id,
-        locationPurchase: deletedShoe[0].shoe_locpurchase,
-        locationSold: deletedShoe[0].shoe_locsold,
+        message: "Shoe deleted successfully"
       };
     },
     updateShoe: async (
@@ -173,6 +171,9 @@ const resolvers = {
           dateSold,
           code,
           size_key,
+          brand_key,
+          model_key,
+          color_key,
           locationPurchase_key,
           locationSold_key,
         },
@@ -186,6 +187,9 @@ const resolvers = {
           dateSold,
           code,
           size_key,
+          brand_key,
+          model_key,
+          color_key,
           locationPurchase_key,
           locationSold_key
       );
@@ -204,6 +208,7 @@ const resolvers = {
         size: shoe[0].size_id,
         brand: shoe[0].brand_id,
         model: shoe[0].model_id,
+        color: shoe[0].color_id,
         locationPurchase: shoe[0].shoe_locpurchase,
         locationSold: shoe[0].shoe_locsold,
       };
@@ -256,6 +261,16 @@ const resolvers = {
       return {
         key: model[0].model_id,
         name: model[0].model_name,
+      };
+    },
+    color: async (parent, args, { dataSources: { ColorPSQLDataSource } }) => {
+      const color = await ColorPSQLDataSource.colorByID(parent.color);
+      if (!color) {
+        throw new ApolloError("Color not found.", "RESOURCE_NOT_FOUND");
+      }
+      return {
+        key: color[0].color_id,
+        name: color[0].color_name,
       };
     },
     locationPurchase: async (parent, args, { dataSources: { LocationPSQLDataSource } }) => {

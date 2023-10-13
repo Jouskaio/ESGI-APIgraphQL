@@ -32,11 +32,12 @@ class ShoePSQLDataSource extends RESTDataSource {
       size_key,
       brand_key,
       model_key,
+      color_key,
       locationPurchase_key,
       locationSold_key,
   ) {
     const insertQuery =
-        'INSERT INTO "SHOE"(shoe_price_purchase, shoe_price_sold, shoe_date_sold, shoe_date_purchase, shoe_code, size_id, brand_id, model_id, shoe_locpurchase, shoe_locsold) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *';
+        'INSERT INTO "SHOE"(shoe_price_purchase, shoe_price_sold, shoe_date_sold, shoe_date_purchase, shoe_code, size_id, brand_id, model_id,color_id, shoe_locpurchase, shoe_locsold) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,$11) RETURNING *';
 
     const values = [
       pricePurchase,
@@ -47,6 +48,7 @@ class ShoePSQLDataSource extends RESTDataSource {
       size_key,
       brand_key,
       model_key,
+      color_key,
       locationPurchase_key,
       locationSold_key,
     ];
@@ -69,11 +71,14 @@ class ShoePSQLDataSource extends RESTDataSource {
       dateSold,
       code,
       size_key,
+      brand_key,
+      model_key,
+      color_key,
       locationPurchase_key,
       locationSold_key,
   ) {
     const updateQuery =
-        'UPDATE "SHOE" SET shoe_price_purchase = $2, shoe_price_sold = $3, shoe_date_sold = $4, shoe_date_purchase = $5, shoe_code = $6, size_id = $7, shoe_locpurchase = $8, shoe_locsold = $9 WHERE shoe_id = $1 RETURNING *';
+        'UPDATE "SHOE" SET shoe_price_purchase = $2, shoe_price_sold = $3, shoe_date_sold = $4, shoe_date_purchase = $5, shoe_code = $6, size_id = $7,brand_id=$8,model_id=$9,color_id=$10, shoe_locpurchase = $11, shoe_locsold = $12 WHERE shoe_id = $1 RETURNING *';
 
     const values = [
       key,
@@ -83,6 +88,9 @@ class ShoePSQLDataSource extends RESTDataSource {
       dateSold,
       code,
       size_key,
+      brand_key,
+      model_key,
+      color_key,
       locationPurchase_key,
       locationSold_key,
     ];
