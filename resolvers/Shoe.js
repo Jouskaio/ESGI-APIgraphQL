@@ -157,9 +157,8 @@ const resolvers = {
         );
       }
 
-      return {
-        message: "Shoe deleted successfully"
-      };
+      return
+        null
     },
     updateShoe: async (
         parent,
